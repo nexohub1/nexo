@@ -1,8 +1,8 @@
-local vape = shared.vape
+local nexo = shared.nexo
 local loadstring = function(...)
 	local res, err = loadstring(...)
-	if err and vape then 
-		vape:CreateNotification('Vape', 'Failed to load : '..err, 30, 'alert') 
+	if err and nexo then 
+		nexo:CreateNotification('nexo', 'Failed to load : '..err, 30, 'alert') 
 	end
 	return res
 end
@@ -15,29 +15,29 @@ end
 local function downloadFile(path, func)
 	if not isfile(path) then
 		local suc, res = pcall(function() 
-			return game:HttpGet('https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/'..readfile('newvape/profiles/commit.txt')..'/'..select(1, path:gsub('newvape/', '')), true) 
+			return game:HttpGet('https://raw.githubusercontent.com/nexohub1/nexo/'..readfile('nexo/profiles/commit.txt')..'/'..select(1, path:gsub('nexo/', '')), true) 
 		end)
 		if not suc or res == '404: Not Found' then 
 			error(res) 
 		end
 		if path:find('.lua') then 
-			res = '--This watermark is used to delete the file if its cached, remove it to make the file persist after vape updates.\n'..res 
+			res = '--This watermark is used to delete the file if its cached, remove it to make the file persist after nexo updates.\n'..res 
 		end
 		writefile(path, res)
 	end
 	return (func or readfile)(path)
 end
 
-vape.Place = 6872274481
-if isfile('newvape/games/'..vape.Place..'.lua') then
-	loadstring(readfile('newvape/games/'..vape.Place..'.lua'), 'bedwars')()
+nexo.Place = 6872274481
+if isfile('nexo/games/'..nexo.Place..'.lua') then
+	loadstring(readfile('nexo/games/'..nexo.Place..'.lua'), 'bedwars')()
 else
-	if not shared.VapeDeveloper then
+	if not shared.nexoDeveloper then
 		local suc, res = pcall(function() 
-			return game:HttpGet('https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/'..readfile('newvape/profiles/commit.txt')..'/games/'..vape.Place..'.lua', true) 
+			return game:HttpGet('https://raw.githubusercontent.com/nexohub1/nexo/'..readfile('nexo/profiles/commit.txt')..'/games/'..nexo.Place..'.lua', true) 
 		end)
 		if suc and res ~= '404: Not Found' then
-			loadstring(downloadFile('newvape/games/'..vape.Place..'.lua'), 'bedwars')()
+			loadstring(downloadFile('nexo/games/'..nexo.Place..'.lua'), 'bedwars')()
 		end
 	end
 end
