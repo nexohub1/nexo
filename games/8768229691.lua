@@ -4,7 +4,7 @@ end
 local cloneref = cloneref or function(obj)
 	return obj
 end
-local vapeEvents = setmetatable({}, {
+local nexoEvents = setmetatable({}, {
 	__index = function(self, index)
 		self[index] = Instance.new('BindableEvent')
 		return self[index]
@@ -24,16 +24,16 @@ local gameCamera = workspace.CurrentCamera
 local lplr = playersService.LocalPlayer
 local assetfunction = getcustomasset
 
-local vape = shared.vape
-local entitylib = vape.Libraries.entity
-local targetinfo = vape.Libraries.targetinfo
-local sessioninfo = vape.Libraries.sessioninfo
-local uipallet = vape.Libraries.uipallet
-local tween = vape.Libraries.tween
-local color = vape.Libraries.color
-local whitelist = vape.Libraries.whitelist
-local prediction = vape.Libraries.prediction
-local getcustomasset = vape.Libraries.getcustomasset
+local nexo = shared.nexo
+local entitylib = nexo.Libraries.entity
+local targetinfo = nexo.Libraries.targetinfo
+local sessioninfo = nexo.Libraries.sessioninfo
+local uipallet = nexo.Libraries.uipallet
+local tween = nexo.Libraries.tween
+local color = nexo.Libraries.color
+local whitelist = nexo.Libraries.whitelist
+local prediction = nexo.Libraries.prediction
+local getcustomasset = nexo.Libraries.getcustomasset
 
 local skywars, remotes = {}, {}
 local store = {
@@ -125,10 +125,10 @@ local function getPickaxe()
 end
 
 local function isFriend(plr, recolor)
-	if vape.Categories.Friends.Options['Use friends'].Enabled then
-		local friend = table.find(vape.Categories.Friends.ListEnabled, plr.Name) and true
+	if nexo.Categories.Friends.Options['Use friends'].Enabled then
+		local friend = table.find(nexo.Categories.Friends.ListEnabled, plr.Name) and true
 		if recolor then
-			friend = friend and vape.Categories.Friends.Options['Recolor visuals'].Enabled
+			friend = friend and nexo.Categories.Friends.Options['Recolor visuals'].Enabled
 		end
 		return friend
 	end
@@ -136,11 +136,11 @@ local function isFriend(plr, recolor)
 end
 
 local function isTarget(plr)
-	return table.find(vape.Categories.Targets.ListEnabled, plr.Name) and true
+	return table.find(nexo.Categories.Targets.ListEnabled, plr.Name) and true
 end
 
 local function notif(...)
-	return vape:CreateNotification(...)
+	return nexo:CreateNotification(...)
 end
 
 local function parsePositions(v, func)
@@ -263,9 +263,9 @@ run(function()
 
 	entitylib.getEntityColor = function(ent)
 		ent = ent.Player
-		if not (ent and vape.Categories.Main.Options['Use team color'].Enabled) then return end
+		if not (ent and nexo.Categories.Main.Options['Use team color'].Enabled) then return end
 		if isFriend(ent, true) then
-			return Color3.fromHSV(vape.Categories.Friends.Options['Friends color'].Hue, vape.Categories.Friends.Options['Friends color'].Sat, vape.Categories.Friends.Options['Friends color'].Value)
+			return Color3.fromHSV(nexo.Categories.Friends.Options['Friends color'].Hue, nexo.Categories.Friends.Options['Friends color'].Sat, nexo.Categories.Friends.Options['Friends color'].Value)
 		end
 		return skywars.TeamController:getTeamColour(ent:GetAttribute('TeamId'))
 	end
@@ -330,7 +330,7 @@ run(function()
 
 	local function updateStore(newStore, oldStore)
 		if newStore.GameCurrency ~= oldStore.GameCurrency then
-			vapeEvents.CurrencyChange:Fire(table.clone(newStore.GameCurrency.Quantities))
+			nexoEvents.CurrencyChange:Fire(table.clone(newStore.GameCurrency.Quantities))
 		end
 
 		if newStore.ActiveSlot ~= oldStore.ActiveSlot then
@@ -344,7 +344,7 @@ run(function()
 			store.hand = store.hand and skywars.ItemMeta[store.hand.Type] or {}
 			store.tools.sword = getSword()
 			store.tools.pickaxe = getPickaxe()
-			vapeEvents.InventoryAmountChanged:Fire()
+			nexoEvents.InventoryAmountChanged:Fire()
 		end
 
 		if oldStore.Profile and oldStore.Profile.WasTeleporting and newStore.Profile.Stats ~= oldStore.Profile.Stats then
@@ -367,15 +367,15 @@ run(function()
 				entitylib.character.GroundPosition = entitylib.character.Humanoid.FloorMaterial ~= Enum.Material.Air and entitylib.character.RootPart.Position or entitylib.character.GroundPosition
 			end
 			task.wait()
-		until vape.Loaded == nil
+		until nexo.Loaded == nil
 	end)
 
-	vape:Clean(workspace.BlockContainer.DescendantAdded:Connect(function(v)
+	nexo:Clean(workspace.BlockContainer.DescendantAdded:Connect(function(v)
 		parsePositions(v, function(pos)
 			store.blocks[pos] = v
 		end)
 	end))
-	vape:Clean(workspace.BlockContainer.DescendantRemoving:Connect(function(v)
+	nexo:Clean(workspace.BlockContainer.DescendantRemoving:Connect(function(v)
 		parsePositions(v, function(pos)
 			store.blocks[pos] = nil
 		end)
@@ -386,13 +386,13 @@ run(function()
 		end)
 	end
 
-	vape:Clean(function()
-		for _, v in vapeEvents do
+	nexo:Clean(function()
+		for _, v in nexoEvents do
 			v:Destroy()
 		end
 		table.clear(ControllerTable)
 		table.clear(RemoteTable)
-		table.clear(vapeEvents)
+		table.clear(nexoEvents)
 		table.clear(skywars)
 		table.clear(store.blocks)
 		table.clear(store)
@@ -402,7 +402,7 @@ run(function()
 end)
 
 for _, v in {'Reach', 'TriggerBot', 'Disabler', 'SilentAim', 'AutoRejoin', 'Rejoin', 'ServerHop', 'MurderMystery'} do
-	vape:Remove(v)
+	nexo:Remove(v)
 end
 run(function()
 	local AutoClicker
@@ -433,7 +433,7 @@ run(function()
 		end)
 	end
 	
-	AutoClicker = vape.Categories.Combat:CreateModule({
+	AutoClicker = nexo.Categories.Combat:CreateModule({
 		Name = 'AutoClicker',
 		Function = function(callback)
 			if callback then
@@ -480,7 +480,7 @@ run(function()
 	local Sprint
 	local old
 	
-	Sprint = vape.Categories.Combat:CreateModule({
+	Sprint = nexo.Categories.Combat:CreateModule({
 		Name = 'Sprint',
 		Function = function(callback)
 			if callback then
@@ -538,7 +538,7 @@ run(function()
 		return old(velo, ...)
 	end
 	
-	Velocity = vape.Categories.Combat:CreateModule({
+	Velocity = nexo.Categories.Combat:CreateModule({
 		Name = 'Velocity',
 		Function = function(callback)
 			if callback then
@@ -597,7 +597,7 @@ run(function()
 		return mag
 	end
 	
-	AntiFall = vape.Categories.Blatant:CreateModule({
+	AntiFall = nexo.Categories.Blatant:CreateModule({
 		Name = 'AntiFall',
 		Function = function(callback)
 			if callback then
@@ -670,7 +670,7 @@ run(function()
 	local InvMove
 	local old
 	
-	InvMove = vape.Categories.Blatant:CreateModule({
+	InvMove = nexo.Categories.Blatant:CreateModule({
 		Name = 'InvMove',
 		Function = function(callback)
 			if callback then
@@ -709,7 +709,7 @@ run(function()
 	local AnimTween
 	local Attacking
 	local Particles, Boxes = {}, {}
-	local anims, armC0 = vape.Libraries.auraanims
+	local anims, armC0 = nexo.Libraries.auraanims
 	
 	local function getAttackData()
 		if Mouse.Enabled then
@@ -719,7 +719,7 @@ run(function()
 		return (not Limit.Enabled) and store.tools.sword or store.hand
 	end
 	
-	Killaura = vape.Categories.Blatant:CreateModule({
+	Killaura = nexo.Categories.Blatant:CreateModule({
 		Name = 'Killaura',
 		Function = function(callback)
 			if callback then
@@ -806,7 +806,7 @@ run(function()
 					end
 	
 					Attacking = #attacked > 0
-					if Attacking and vape.ThreadFix then
+					if Attacking and nexo.ThreadFix then
 						setthreadidentity(8)
 					end
 	
@@ -878,7 +878,7 @@ run(function()
 					box.Size = Vector3.new(3, 5, 3)
 					box.CFrame = CFrame.new(0, -0.5, 0)
 					box.ZIndex = 0
-					box.Parent = vape.gui
+					box.Parent = nexo.gui
 					Boxes[i] = box
 				end
 			else
@@ -1034,7 +1034,7 @@ run(function()
 	local NoFall
 	local rayCheck = RaycastParams.new()
 	
-	NoFall = vape.Categories.Blatant:CreateModule({
+	NoFall = nexo.Categories.Blatant:CreateModule({
 		Name = 'NoFall',
 		Function = function(callback)
 			if callback then
@@ -1064,7 +1064,7 @@ end)
 run(function()
 	local old, old2
 	
-	vape.Categories.Blatant:CreateModule({
+	nexo.Categories.Blatant:CreateModule({
 		Name = 'NoSlowdown',
 		Function = function(callback)
 			if callback then
@@ -1129,7 +1129,7 @@ run(function()
 		return old(...)
 	end
 	
-	local ProjectileAimbot = vape.Categories.Blatant:CreateModule({
+	local ProjectileAimbot = nexo.Categories.Blatant:CreateModule({
 		Name = 'ProjectileAimbot',
 		Function = function(callback)
 			if callback then 
@@ -1180,7 +1180,7 @@ run(function()
 		return items
 	end
 	
-	ProjectileAura = vape.Categories.Blatant:CreateModule({
+	ProjectileAura = nexo.Categories.Blatant:CreateModule({
 		Name = 'ProjectileAura',
 		Function = function(callback)
 			if callback then
@@ -1318,7 +1318,7 @@ run(function()
 		end
 	end
 	
-	Scaffold = vape.Categories.Utility:CreateModule({
+	Scaffold = nexo.Categories.Utility:CreateModule({
 		Name = 'Scaffold',
 		Function = function(callback)
 			if callback then
@@ -1386,7 +1386,7 @@ run(function()
 	local Open
 	local Delay = {}
 	
-	ChestSteal = vape.Categories.World:CreateModule({
+	ChestSteal = nexo.Categories.World:CreateModule({
 		Name = 'ChestSteal',
 		Function = function(callback)
 			if callback then
@@ -1472,11 +1472,11 @@ run(function()
 		end
 	end
 	
-	AutoBuy = vape.Categories.Inventory:CreateModule({
+	AutoBuy = nexo.Categories.Inventory:CreateModule({
 		Name = 'AutoBuy',
 		Function = function(callback)
 			if callback then
-				AutoBuy:Clean(vapeEvents.CurrencyChange.Event:Connect(buyCheck))
+				AutoBuy:Clean(nexoEvents.CurrencyChange.Event:Connect(buyCheck))
 				buyCheck(table.clone(skywars.Store:getState().GameCurrency.Quantities))
 			end
 		end,
@@ -1550,11 +1550,11 @@ run(function()
 		end
 	end
 	
-	AutoConsume = vape.Categories.Inventory:CreateModule({
+	AutoConsume = nexo.Categories.Inventory:CreateModule({
 		Name = 'AutoConsume',
 		Function = function(callback)
 			if callback then
-				AutoConsume:Clean(vapeEvents.InventoryAmountChanged.Event:Connect(consumeCheck))
+				AutoConsume:Clean(nexoEvents.InventoryAmountChanged.Event:Connect(consumeCheck))
 				AutoConsume:Clean(lplr:GetAttributeChangedSignal('Shield'):Connect(consumeCheck))
 				consumeCheck()
 			end
@@ -1612,7 +1612,7 @@ run(function()
 						Size = UDim2.new(1, 89, 1, 52),
 						Position = UDim2.fromOffset(-48, -31),
 						BackgroundTransparency = 1,
-						Image = getcustomasset('newvape/assets/new/blur.png'),
+						Image = getcustomasset('nexo/assets/new/blur.png'),
 						ScaleType = Enum.ScaleType.Slice,
 						SliceCenter = Rect.new(52, 31, 261, 502)
 					}),
@@ -1673,7 +1673,7 @@ run(function()
 		end)
 	end
 	
-	Breaker = vape.Categories.Minigames:CreateModule({
+	Breaker = nexo.Categories.Minigames:CreateModule({
 		Name = 'Breaker',
 		Function = function(callback)
 			if callback then
@@ -1754,20 +1754,20 @@ run(function()
 		end))
 	end
 	
-	Viewmodel = vape.Legit:CreateModule({
+	Viewmodel = nexo.Legit:CreateModule({
 		Name = 'Viewmodel',
 		Function = function(callback)
 			if callback then 
 				ViewmodelMotor = Instance.new('Motor6D')
-				vape:Clean(ViewmodelMotor)
-				vape:Clean(runService.RenderStepped:Connect(function()
+				nexo:Clean(ViewmodelMotor)
+				nexo:Clean(runService.RenderStepped:Connect(function()
 					if ViewmodelTool then 
 						local dcf = ((CFrame.new(2.06, -2.44, -2.24) * CFrame.new(0.6, -0.2, -0.6)) * CFrame.Angles(math.rad(99), math.rad(2), math.rad(-4))) * ViewmodelMotor.C0
 						local offsetcf = (CFrame.new(0, -0.15, -1.56) * CFrame.Angles(math.rad(-90), math.rad(-90), 0))
 						ViewmodelTool.CFrame = ((gameCamera.CFrame * dcf) * offsetcf)
 					end
 				end))
-				vape:Clean(entitylib.Events.LocalAdded:Connect(newCharacter))
+				nexo:Clean(entitylib.Events.LocalAdded:Connect(newCharacter))
 				if entitylib.isAlive then 
 					newCharacter(entitylib.character) 
 				end
