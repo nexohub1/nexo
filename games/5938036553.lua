@@ -1,7 +1,7 @@
 local loadstring = function(...)
 	local res, err = loadstring(...)
-	if err and vape then
-		vape:CreateNotification('Vape', 'Failed to load : '..err, 30, 'alert')
+	if err and nexo then
+		nexo:CreateNotification('nexo', 'Failed to load : '..err, 30, 'alert')
 	end
 	return res
 end
@@ -14,13 +14,13 @@ end
 local function downloadFile(path, func)
 	if not isfile(path) then
 		local suc, res = pcall(function()
-			return game:HttpGet('https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/'..readfile('newvape/profiles/commit.txt')..'/'..select(1, path:gsub('newvape/', '')), true)
+			return game:HttpGet('https://raw.githubusercontent.com/nexohub1/nexo/'..readfile('nexo/profiles/commit.txt')..'/'..select(1, path:gsub('nexo/', '')), true)
 		end)
 		if not suc or res == '404: Not Found' then
 			error(res)
 		end
 		if path:find('.lua') then
-			res = '--This watermark is used to delete the file if its cached, remove it to make the file persist after vape updates.\n'..res
+			res = '--This watermark is used to delete the file if its cached, remove it to make the file persist after nexo updates.\n'..res
 		end
 		writefile(path, res)
 	end
@@ -42,30 +42,30 @@ local debrisService = cloneref(game:GetService('Debris'))
 local gameCamera = workspace.CurrentCamera
 local lplr = playersService.LocalPlayer
 
-local vape = shared.vape
-local entitylib = vape.Libraries.entity
-local whitelist = vape.Libraries.whitelist
-local prediction = vape.Libraries.prediction
-local targetinfo = vape.Libraries.targetinfo
-local sessioninfo = vape.Libraries.sessioninfo
-local getcustomasset = vape.Libraries.getcustomasset
-local drawingactor = loadstring(downloadFile('newvape/libraries/drawing.lua'), 'drawing')(...)
+local nexo = shared.nexo
+local entitylib = nexo.Libraries.entity
+local whitelist = nexo.Libraries.whitelist
+local prediction = nexo.Libraries.prediction
+local targetinfo = nexo.Libraries.targetinfo
+local sessioninfo = nexo.Libraries.sessioninfo
+local getcustomasset = nexo.Libraries.getcustomasset
+local drawingactor = loadstring(downloadFile('nexo/libraries/drawing.lua'), 'drawing')(...)
 local function notif(...)
-	return vape:CreateNotification(...)
+	return nexo:CreateNotification(...)
 end
 
 if not select(1, ...) and game.PlaceId == 5938036553 then
 	if run_on_actor and getactors then
-		local oldreload = shared.vapereload
-		vape.Load = function()
+		local oldreload = shared.nexoreload
+		nexo.Load = function()
 			task.delay(0.1, function()
-				vape:Uninject()
+				nexo:Uninject()
 			end)
 		end
 
 		task.spawn(function()
-			repeat task.wait() until not shared.vape
-			local executionString = "loadfile('newvape/main.lua')("..drawingactor..")"
+			repeat task.wait() until not shared.nexo
+			local executionString = "loadfile('nexo/main.lua')("..drawingactor..")"
 			for i, v in shared do
 				if type(v) == 'string' then
 					executionString = string.format("shared.%s = '%s'", i, v)..'\n'..executionString
@@ -74,7 +74,7 @@ if not select(1, ...) and game.PlaceId == 5938036553 then
 				end
 			end
 			if oldreload then
-				executionString = 'shared.vapereload = true\n'..executionString
+				executionString = 'shared.nexoreload = true\n'..executionString
 			end
 
 			for i, v in getactors() do
@@ -83,11 +83,11 @@ if not select(1, ...) and game.PlaceId == 5938036553 then
 					return
 				end
 			end
-			notif('Vape', 'Failed to find actor', 10, 'alert')
+			notif('nexo', 'Failed to find actor', 10, 'alert')
 		end)
 	else
-		vape.Load = function()
-			notif('Vape', 'Missing actor functions.', 10, 'alert')
+		nexo.Load = function()
+			notif('nexo', 'Missing actor functions.', 10, 'alert')
 		end
 	end
 
@@ -102,7 +102,7 @@ local function addBlur(parent)
 	blur.Size = UDim2.new(1, 89, 1, 52)
 	blur.Position = UDim2.fromOffset(-48, -31)
 	blur.BackgroundTransparency = 1
-	blur.Image = getcustomasset('newvape/assets/new/blur.png')
+	blur.Image = getcustomasset('nexo/assets/new/blur.png')
 	blur.ScaleType = Enum.ScaleType.Slice
 	blur.SliceCenter = Rect.new(52, 31, 261, 502)
 	blur.Parent = parent
@@ -142,17 +142,17 @@ local function hookEvent(id, rfunc)
 	end)
 
 	if not suc then
-		notif('Vape', 'Failed to hook ('..id..')', 10, 'alert')
+		notif('nexo', 'Failed to hook ('..id..')', 10, 'alert')
 	end
 
 	return type(res) == 'function' and res or function() end
 end
 
 local function isFriend(plr, recolor)
-	if vape.Categories.Friends.Options['Use friends'].Enabled then
-		local friend = table.find(vape.Categories.Friends.ListEnabled, plr.Name) and true
+	if nexo.Categories.Friends.Options['Use friends'].Enabled then
+		local friend = table.find(nexo.Categories.Friends.ListEnabled, plr.Name) and true
 		if recolor then
-			friend = friend and vape.Categories.Friends.Options['Recolor visuals'].Enabled
+			friend = friend and nexo.Categories.Friends.Options['Recolor visuals'].Enabled
 		end
 		return friend
 	end
@@ -189,8 +189,8 @@ run(function()
 		else
 			break
 		end
-	until vape.Loaded == nil
-	if vape.Loaded == nil then return end
+	until nexo.Loaded == nil
+	if nexo.Loaded == nil then return end
 	frontlines.Events = debug.getupvalue(frontlines.Main.append_exe_set, 1)
 	frontlines.PickupBit = debug.getupvalue(frontlines.Events[frontlines.Main.exe_func_t.INIT_FPV_SOL_AMMO_PICKUP], 5)
 	frontlines.Chat = debug.getupvalue(frontlines.Events[frontlines.Main.exe_func_t.UPDATE_CHAT_GUI], 1)
@@ -259,8 +259,8 @@ run(function()
 		end)
 	end
 
-	vape:Clean(Drawing.kill or function() end)
-	vape:Clean(function()
+	nexo:Clean(Drawing.kill or function() end)
+	nexo:Clean(function()
 		for i, v in frontlines.Functions do
 			hookfunction(i, v)
 		end
@@ -268,7 +268,7 @@ run(function()
 		table.clear(frontlines)
 	end)
 end)
-if vape.Loaded == nil then return end
+if nexo.Loaded == nil then return end
 
 run(function()
 	entitylib.Wallcheck = function(origin, position, ignoreobject)
@@ -284,9 +284,9 @@ run(function()
 
 	entitylib.getEntityColor = function(ent)
 		ent = ent.Player
-		if not (ent and vape.Categories.Main.Options['Use team color'].Enabled) then return end
+		if not (ent and nexo.Categories.Main.Options['Use team color'].Enabled) then return end
 		if isFriend(ent, true) then
-			return Color3.fromHSV(vape.Categories.Friends.Options['Friends color'].Hue, vape.Categories.Friends.Options['Friends color'].Sat, vape.Categories.Friends.Options['Friends color'].Value)
+			return Color3.fromHSV(nexo.Categories.Friends.Options['Friends color'].Hue, nexo.Categories.Friends.Options['Friends color'].Sat, nexo.Categories.Friends.Options['Friends color'].Value)
 		end
 		return getTeam(lplr) == getTeam(ent) and Color3.fromRGB(67, 140, 229) or Color3.fromRGB(234, 50, 50)
 	end
@@ -386,7 +386,7 @@ end)
 entitylib.start()
 
 for i, v in {'Reach', 'Health', 'TriggerBot', 'AntiFall', 'AntiRagdoll', 'Invisible', 'Disabler', 'Freecam', 'Parkour', 'HitBoxes', 'SafeWalk', 'Spider', 'Swim', 'GamingChair', 'TargetStrafe', 'Timer', 'MurderMystery', 'Blink', 'AnimationPlayer'} do
-	vape:Remove(v)
+	nexo:Remove(v)
 end
 
 run(function()
@@ -400,7 +400,7 @@ run(function()
 	local rayCheck = RaycastParams.new()
 	rayCheck.RespectCanCollide = true
 	
-	AimAssist = vape.Categories.Combat:CreateModule({
+	AimAssist = nexo.Categories.Combat:CreateModule({
 		Name = 'AimAssist',
 		Function = function(callback)
 			if CircleObject then
@@ -471,7 +471,7 @@ run(function()
 				CircleObject = Drawing.new('Circle')
 				CircleObject.Filled = CircleFilled.Enabled
 				CircleObject.Color = Color3.fromHSV(CircleColor.Hue, CircleColor.Sat, CircleColor.Value)
-				CircleObject.Position = vape.gui.AbsoluteSize / 2
+				CircleObject.Position = nexo.gui.AbsoluteSize / 2
 				CircleObject.Radius = FOV.Value
 				CircleObject.NumSides = 100
 				CircleObject.Transparency = 1 - CircleTransparency.Value
@@ -574,7 +574,7 @@ run(function()
 		return returned
 	end
 	
-	SilentAim = vape.Categories.Combat:CreateModule({
+	SilentAim = nexo.Categories.Combat:CreateModule({
 		Name = 'SilentAim',
 		Function = function(callback)
 			if CircleObject then
@@ -685,7 +685,7 @@ run(function()
 				CircleObject = Drawing.new('Circle')
 				CircleObject.Filled = CircleFilled.Enabled
 				CircleObject.Color = Color3.fromHSV(CircleColor.Hue, CircleColor.Sat, CircleColor.Value)
-				CircleObject.Position = vape.gui.AbsoluteSize / 2
+				CircleObject.Position = nexo.gui.AbsoluteSize / 2
 				CircleObject.Radius = Range.Value
 				CircleObject.NumSides = 100
 				CircleObject.Transparency = 1 - CircleTransparency.Value
@@ -740,7 +740,7 @@ end)
 run(function()
 	local Sprint
 	
-	Sprint = vape.Categories.Combat:CreateModule({
+	Sprint = nexo.Categories.Combat:CreateModule({
 		Name = 'Sprint',
 		Function = function(callback)
 			if callback then
@@ -768,7 +768,7 @@ run(function()
 	local GrenadeTP
 	local Range
 	
-	GrenadeTP = vape.Categories.Blatant:CreateModule({
+	GrenadeTP = nexo.Categories.Blatant:CreateModule({
 		Name = 'GrenadeTP',
 		Function = function(callback)
 			if callback then
@@ -818,7 +818,7 @@ run(function()
 	local FireRate
 	local Automatic
 	
-	GunModifications = vape.Categories.Blatant:CreateModule({
+	GunModifications = nexo.Categories.Blatant:CreateModule({
 		Name = 'GunModifications',
 		Function = function(callback)
 			if callback then
@@ -906,7 +906,7 @@ run(function()
 		return true, knifecheck
 	end
 	
-	Killaura = vape.Categories.Blatant:CreateModule({
+	Killaura = nexo.Categories.Blatant:CreateModule({
 		Name = 'Killaura',
 		Function = function(callback)
 			if callback then
@@ -954,7 +954,7 @@ run(function()
 											frontlines.Main.globals.ctrl_states.trigger = true
 											frontlines.Main.globals.ctrl_ts.trigger = time()
 											frontlines.Main.exe_set(frontlines.Main.exe_set_t.FPV_SOL_MELEE_SOL_HIT, gun, part, Vector3.zero)
-											if vape.ThreadFix then 
+											if nexo.ThreadFix then 
 												setthreadidentity(8) 
 											end
 										end
@@ -1040,7 +1040,7 @@ run(function()
 					box.Size = Vector3.new(3, 5, 3)
 					box.CFrame = CFrame.new(0, -0.5, 0)
 					box.ZIndex = 0
-					box.Parent = vape.gui
+					box.Parent = nexo.gui
 					Boxes[i] = box
 				end
 			else
@@ -1162,7 +1162,7 @@ end)
 run(function()
 	local Phase
 	
-	Phase = vape.Categories.Blatant:CreateModule({
+	Phase = nexo.Categories.Blatant:CreateModule({
 		Name = 'Phase',
 		Function = function(callback)
 			if callback then
@@ -1200,7 +1200,7 @@ run(function()
 		table.insert(aimtable, Vector3.zero)
 	end
 	
-	SpinBot = vape.Categories.Blatant:CreateModule({
+	SpinBot = nexo.Categories.Blatant:CreateModule({
 		Name = 'SpinBot',
 		Function = function(callback)
 			if callback then
@@ -1261,11 +1261,11 @@ run(function()
 	local Color = {}
 	local Reference = {}
 	local Folder = Instance.new('Folder')
-	Folder.Parent = vape.gui
+	Folder.Parent = nexo.gui
 	local old
 	
 	local function addESP(v)
-		if vape.ThreadFix then 
+		if nexo.ThreadFix then 
 			setthreadidentity(8) 
 		end
 		if not v.model or v.model.Name ~= 'frag' then return end
@@ -1290,7 +1290,7 @@ run(function()
 		uicorner.Parent = image
 		Reference[v.model] = billboard
 		v.model.Destroying:Connect(function()
-			if vape.ThreadFix then 
+			if nexo.ThreadFix then 
 				setthreadidentity(8) 
 			end
 			if Reference[v.model] then
@@ -1300,7 +1300,7 @@ run(function()
 		end)
 	end
 	
-	GrenadeESP = vape.Categories.Render:CreateModule({
+	GrenadeESP = nexo.Categories.Render:CreateModule({
 		Name = 'GrenadeESP',
 		Function = function(callback)
 			if callback then
@@ -1347,7 +1347,7 @@ end)
 run(function()
 	local NoHurtCam
 	
-	NoHurtCam = vape.Categories.Render:CreateModule({
+	NoHurtCam = nexo.Categories.Render:CreateModule({
 		Name = 'NoHurtCam',
 		Function = function(callback)
 			if callback then
@@ -1365,7 +1365,7 @@ run(function()
 	local Distance
 	local hook = false
 	
-	ThirdPerson = vape.Categories.Render:CreateModule({
+	ThirdPerson = nexo.Categories.Render:CreateModule({
 		Name = 'ThirdPerson',
 		Function = function(callback)
 			if callback then
@@ -1437,7 +1437,7 @@ end)
 run(function()
 	local AutoRespawn
 	
-	AutoRespawn = vape.Categories.Utility:CreateModule({
+	AutoRespawn = nexo.Categories.Utility:CreateModule({
 		Name = 'AutoRespawn',
 		Function = function(callback)
 			if callback then
@@ -1460,7 +1460,7 @@ run(function()
 	local Hide
 	local oldchat
 	
-	ChatSpammer = vape.Categories.Utility:CreateModule({
+	ChatSpammer = nexo.Categories.Utility:CreateModule({
 		Name = 'ChatSpammer',
 		Function = function(callback)
 			if callback then
@@ -1493,7 +1493,7 @@ run(function()
 	local Range
 	local pickupdelay = tick()
 	
-	PickupRange = vape.Categories.Utility:CreateModule({
+	PickupRange = nexo.Categories.Utility:CreateModule({
 		Name = 'PickupRange',
 		Function = function(callback)
 			if callback then 
@@ -1534,7 +1534,7 @@ run(function()
 	local DrawingToggle
 	local drawingobjs = {}
 	
-	BulletTracers = vape.Legit:CreateModule({
+	BulletTracers = nexo.Legit:CreateModule({
 		Name = 'BulletTracers',
 		Function = function(callback)
 			if callback then 
