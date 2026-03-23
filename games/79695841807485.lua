@@ -10,10 +10,10 @@ local starterGui = cloneref(game:GetService('StarterGui'))
 
 local gameCamera = workspace.CurrentCamera
 local lplr = playersService.LocalPlayer
-local vape = shared.vape
-local entitylib = vape.Libraries.entity
-local targetinfo = vape.Libraries.targetinfo
-local prediction = vape.Libraries.prediction
+local nexo = shared.nexo
+local entitylib = nexo.Libraries.entity
+local targetinfo = nexo.Libraries.targetinfo
+local prediction = nexo.Libraries.prediction
 
 local ad = {}
 
@@ -51,7 +51,7 @@ run(function()
 
 		for name in map do
 			if not scripts[name] then
-				vape:CreateNotification('Vape', 'Unable to find script: '..name, 10, 'alert')
+				nexo:CreateNotification('nexo', 'Unable to find script: '..name, 10, 'alert')
 				return false
 			end
 		end
@@ -60,8 +60,8 @@ run(function()
 	end
 
 	if starterGui:GetCoreGuiEnabled(Enum.CoreGuiType.Health) then
-		repeat task.wait() until not starterGui:GetCoreGuiEnabled(Enum.CoreGuiType.Health) or vape.Loaded == nil
-		if vape.Loaded == nil then return end
+		repeat task.wait() until not starterGui:GetCoreGuiEnabled(Enum.CoreGuiType.Health) or nexo.Loaded == nil
+		if nexo.Loaded == nil then return end
 	end
 
 	for _, v in getconnections(game:GetService('LogService').MessageOut) do
@@ -86,7 +86,7 @@ run(function()
 		FireBullet = require(scripts.BulletHandler)
 	}
 end)
-if vape.Loaded == nil then return end
+if nexo.Loaded == nil then return end
 
 run(function()
 	local function waitForChildOfType(obj, name, timeout, prop)
@@ -218,7 +218,7 @@ end)
 entitylib.start()
 
 for _, v in {'TriggerBot', 'Invisible', 'Swim', 'TargetStrafe', 'AntiRagdoll', 'Freecam', 'Parkour', 'SafeWalk', 'AntiFall', 'HitBoxes', 'Killaura', 'MurderMystery', 'AnimationPlayer', 'Blink', 'Disabler'} do
-	vape:Remove(v)
+	nexo:Remove(v)
 end
 run(function()
 	
@@ -282,7 +282,7 @@ run(function()
 					return false
 				end
 			end
-			return (not vape.gui.ScaledGui.ClickGui.Visible) and (not inputService:GetFocusedTextBox())
+			return (not nexo.gui.ScaledGui.ClickGui.Visible) and (not inputService:GetFocusedTextBox())
 		end
 	
 		local function hook(...)
@@ -308,7 +308,7 @@ run(function()
 			return old(unpack(args, 1, select('#', ...)))
 		end
 	
-		SilentAim = vape.Categories.Combat:CreateModule({
+		SilentAim = nexo.Categories.Combat:CreateModule({
 			Name = 'SilentAim',
 			Function = function(callback)
 				if CircleObject then
@@ -414,7 +414,7 @@ run(function()
 					CircleObject = Drawing.new('Circle')
 					CircleObject.Filled = CircleFilled.Enabled
 					CircleObject.Color = Color3.fromHSV(CircleColor.Hue, CircleColor.Sat, CircleColor.Value)
-					CircleObject.Position = vape.gui.AbsoluteSize / 2
+					CircleObject.Position = nexo.gui.AbsoluteSize / 2
 					CircleObject.Radius = Range.Value
 					CircleObject.NumSides = 100
 					CircleObject.Transparency = 1 - CircleTransparency.Value
@@ -496,7 +496,7 @@ run(function()
 		return tool and tool.ObjectClassName == 'Melee' and tool
 	end
 	
-	Killaura = vape.Categories.Blatant:CreateModule({
+	Killaura = nexo.Categories.Blatant:CreateModule({
 		Name = 'Killaura',
 		Function = function(callback)
 			if callback then
@@ -531,7 +531,7 @@ run(function()
 								if AttackDelay < tick() then
 									AttackDelay = tick() + 0.05
 									ad.Network:FireServer('MeleeHit', v.Character, v.RootPart, tool.Instance, true, v.RootPart.Position)
-	                                if vape.ThreadFix then
+	                                if nexo.ThreadFix then
 	                                    setthreadidentity(8)
 	                                end
 								end
@@ -616,7 +616,7 @@ run(function()
 					box.Size = Vector3.new(3, 5, 3)
 					box.CFrame = CFrame.new(0, -0.5, 0)
 					box.ZIndex = 0
-					box.Parent = vape.gui
+					box.Parent = nexo.gui
 					Boxes[i] = box
 				end
 			else
@@ -744,7 +744,7 @@ run(function()
 	    old = hookfunction(ad.CharacterController.Airborne._connections[1].Function, function() end)
 	end
 	
-	NoFall = vape.Categories.Blatant:CreateModule({
+	NoFall = nexo.Categories.Blatant:CreateModule({
 	    Name = 'NoFall',
 	    Function = function(callback)
 	        if callback then
