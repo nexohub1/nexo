@@ -59,25 +59,25 @@ local uipallet = {
 }
 
 local getcustomassets = {
-	['newvape/assets/old/barlogo.png'] = 'rbxasset://barlogo.png',
-	['newvape/assets/old/blatanticon.png'] = 'rbxasset://blatanticon.png',
-	['newvape/assets/old/checkbox.png'] = 'rbxasset://checkbox.png',
-	['newvape/assets/old/combaticon.png'] = 'rbxasset://combaticon.png',
-	['newvape/assets/old/friendsicon.png'] = 'rbxasset://friendsicon.png',
-	['newvape/assets/old/guiicon.png'] = 'rbxasset://guiicon.png',
-	['newvape/assets/old/info.png'] = 'rbxasset://info.png',
-	['newvape/assets/old/pin.png'] = 'rbxasset://pin.png',
-	['newvape/assets/old/profilesicon.png'] = 'rbxasset://profilesicon.png',
-	['newvape/assets/old/rendericon.png'] = 'rbxasset://rendericon.png',
-	['newvape/assets/old/search.png'] = 'rbxasset://search.png',
-	['newvape/assets/old/settingsicon.png'] = 'rbxasset://settingsicon.png',
-	['newvape/assets/old/targetinfoicon.png'] = 'rbxasset://targetinfoicon.png',
-	['newvape/assets/old/textguiicon.png'] = 'rbxasset://textguiicon.png',
-	['newvape/assets/old/textv4.png'] = 'rbxasset://textv4.png',
-	['newvape/assets/old/textvape.png'] = 'rbxasset://textvape.png',
-	['newvape/assets/old/utilityicon.png'] = 'rbxasset://utilityicon.png',
-	['newvape/assets/old/vape.png'] = 'rbxassetid://14373395239',
-	['newvape/assets/old/worldicon.png'] = 'rbxasset://worldicon.png'
+	['nexo/assets/old/barlogo.png'] = 'rbxasset://barlogo.png',
+	['nexo/assets/old/blatanticon.png'] = 'rbxasset://blatanticon.png',
+	['nexo/assets/old/checkbox.png'] = 'rbxasset://checkbox.png',
+	['nexo/assets/old/combaticon.png'] = 'rbxasset://combaticon.png',
+	['nexo/assets/old/friendsicon.png'] = 'rbxasset://friendsicon.png',
+	['nexo/assets/old/guiicon.png'] = 'rbxasset://guiicon.png',
+	['nexo/assets/old/info.png'] = 'rbxasset://info.png',
+	['nexo/assets/old/pin.png'] = 'rbxasset://pin.png',
+	['nexo/assets/old/profilesicon.png'] = 'rbxasset://profilesicon.png',
+	['nexo/assets/old/rendericon.png'] = 'rbxasset://rendericon.png',
+	['nexo/assets/old/search.png'] = 'rbxasset://search.png',
+	['nexo/assets/old/settingsicon.png'] = 'rbxasset://settingsicon.png',
+	['nexo/assets/old/targetinfoicon.png'] = 'rbxasset://targetinfoicon.png',
+	['nexo/assets/old/textguiicon.png'] = 'rbxasset://textguiicon.png',
+	['nexo/assets/old/textv4.png'] = 'rbxasset://textv4.png',
+	['nexo/assets/old/textnexo.png'] = 'rbxasset://textnexo.png',
+	['nexo/assets/old/utilityicon.png'] = 'rbxasset://utilityicon.png',
+	['nexo/assets/old/nexo.png'] = 'rbxassetid://14373395239',
+	['nexo/assets/old/worldicon.png'] = 'rbxasset://worldicon.png'
 }
 
 local isfile = isfile or function(file)
@@ -221,13 +221,13 @@ local function downloadFile(path, func)
 	if not isfile(path) then
 		createDownloader(path)
 		local suc, res = pcall(function()
-			return game:HttpGet('https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/'..readfile('newvape/profiles/commit.txt')..'/'..select(1, path:gsub('newvape/', '')), true)
+			return game:HttpGet('https://raw.githubusercontent.com/nexohub1/nexo/'..readfile('nexo/profiles/commit.txt')..'/'..select(1, path:gsub('nexo/', '')), true)
 		end)
 		if not suc or res == '404: Not Found' then
 			error(res)
 		end
 		if path:find('.lua') then
-			res = '--This watermark is used to delete the file if its cached, remove it to make the file persist after vape updates.\n'..res
+			res = '--This watermark is used to delete the file if its cached, remove it to make the file persist after nexo updates.\n'..res
 		end
 		writefile(path, res)
 	end
@@ -310,7 +310,7 @@ local function removeTags(str)
 end
 
 do
-	local res = isfile('newvape/profiles/color.txt') and loadJson('newvape/profiles/color.txt')
+	local res = isfile('nexo/profiles/color.txt') and loadJson('nexo/profiles/color.txt')
 	if res then
 		uipallet.Main = res.Main and Color3.fromRGB(unpack(res.Main)) or uipallet.Main
 		uipallet.Text = res.Text and Color3.fromRGB(unpack(res.Text)) or uipallet.Text
@@ -577,7 +577,7 @@ components = {
 		expand.Size = UDim2.fromOffset(9, 5)
 		expand.Position = UDim2.fromOffset(4, 4)
 		expand.BackgroundTransparency = 1
-		expand.Image = getcustomasset('newvape/assets/new/expandicon.png')
+		expand.Image = getcustomasset('nexo/assets/new/expandicon.png')
 		expand.ImageColor3 = color.Dark(uipallet.Text, 0.43)
 		expand.Parent = expandbutton
 		local rainbow = Instance.new('TextButton')
@@ -1344,7 +1344,7 @@ components = {
 				local objectdotin = Instance.new('ImageLabel')
 				objectdotin.Size = UDim2.fromScale(1, 1)
 				objectdotin.BackgroundTransparency = 1
-				objectdotin.Image = getcustomasset('newvape/assets/old/checkbox.png')
+				objectdotin.Image = getcustomasset('nexo/assets/old/checkbox.png')
 				objectdotin.ImageColor3 = uipallet.Text
 				objectdotin.Parent = objectdot
 				local objecttitle = Instance.new('TextLabel')
@@ -1593,7 +1593,7 @@ components = {
 		arrow.Size = UDim2.fromOffset(12, 6)
 		arrow.Position = UDim2.new(1, -56, 0, 10)
 		arrow.BackgroundTransparency = 1
-		arrow.Image = getcustomasset('newvape/assets/new/rangearrow.png')
+		arrow.Image = getcustomasset('nexo/assets/new/rangearrow.png')
 		arrow.ImageColor3 = color.Light(uipallet.Main, 0.14)
 		arrow.Parent = slider
 		optionsettings.Function = optionsettings.Function or function() end
@@ -1784,7 +1784,7 @@ function mainapi:CreateBar()
 	logo.Size = UDim2.fromOffset(92, 25)
 	logo.Position = UDim2.fromOffset(11, 8)
 	logo.BackgroundTransparency = 1
-	logo.Image = getcustomasset('newvape/assets/old/barlogo.png')
+	logo.Image = getcustomasset('nexo/assets/old/barlogo.png')
 	logo.ImageColor3 = uipallet.Text
 	logo.Parent = bar
 	local settingsbutton = Instance.new('TextButton')
@@ -1800,7 +1800,7 @@ function mainapi:CreateBar()
 	settingsicon.Size = UDim2.fromOffset(26, 26)
 	settingsicon.Position = UDim2.fromOffset(4, 4)
 	settingsicon.BackgroundTransparency = 1
-	settingsicon.Image = getcustomasset('newvape/assets/old/settingsicon.png')
+	settingsicon.Image = getcustomasset('nexo/assets/old/settingsicon.png')
 	settingsicon.ImageColor3 = uipallet.Text
 	settingsicon.Parent = settingsbutton
 	local children = Instance.new('Frame')
@@ -1817,7 +1817,7 @@ function mainapi:CreateBar()
 	local searchbutton = settingsbutton:Clone()
 	searchbutton.Position = UDim2.fromOffset(144, 4)
 	searchbutton.Parent = bar
-	searchbutton.ImageLabel.Image = getcustomasset('newvape/assets/old/search.png')
+	searchbutton.ImageLabel.Image = getcustomasset('nexo/assets/old/search.png')
 
 	function categoryapi:CreateBind()
 		local optionapi = {}
@@ -1850,9 +1850,9 @@ function mainapi:CreateBar()
 		function optionapi:SetBind(tab, mouse)
 			mainapi.Keybind = #tab <= 0 and mainapi.Keybind or table.clone(tab)
 			self.Bind = mainapi.Keybind
-			if mainapi.VapeButton then
-				mainapi.VapeButton:Destroy()
-				mainapi.VapeButton = nil
+			if mainapi.nexoButton then
+				mainapi.nexoButton:Destroy()
+				mainapi.nexoButton = nil
 			end
 
 			if mouse then
@@ -2557,7 +2557,7 @@ function mainapi:CreateOverlay(categorysettings)
 	pin.Position = UDim2.new(1, -23, 0, 11)
 	pin.BackgroundTransparency = 1
 	pin.AutoButtonColor = false
-	pin.Image = getcustomasset('newvape/assets/old/pin.png')
+	pin.Image = getcustomasset('nexo/assets/old/pin.png')
 	pin.ImageColor3 = color.Dark(uipallet.Text, 0.43)
 	pin.Parent = window
 	local customchildren = Instance.new('Frame')
@@ -2749,8 +2749,8 @@ function mainapi:CreateCategoryList(categorysettings)
 				if ind then
 					if val ~= 'default' then
 						table.remove(mainapi.Profiles, ind)
-						if isfile('newvape/profiles/'..val..mainapi.Place..'.txt') and delfile then
-							delfile('newvape/profiles/'..val..mainapi.Place..'.txt')
+						if isfile('nexo/profiles/'..val..mainapi.Place..'.txt') and delfile then
+							delfile('nexo/profiles/'..val..mainapi.Place..'.txt')
 						end
 					end
 				else
@@ -2876,7 +2876,7 @@ function mainapi:CreateCategoryList(categorysettings)
 				local objectdotin = Instance.new('ImageLabel')
 				objectdotin.Size = UDim2.fromScale(1, 1)
 				objectdotin.BackgroundTransparency = 1
-				objectdotin.Image = getcustomasset('newvape/assets/old/checkbox.png')
+				objectdotin.Image = getcustomasset('nexo/assets/old/checkbox.png')
 				objectdotin.ImageColor3 = uipallet.Text
 				objectdotin.Parent = objectdot
 				local objecttitle = Instance.new('TextLabel')
@@ -3015,7 +3015,7 @@ function mainapi:CreateNotification(title, text, duration, type)
 		iconshadow.Position = UDim2.fromOffset(1, 3)
 		iconshadow.ZIndex = 5
 		iconshadow.BackgroundTransparency = 1
-		iconshadow.Image = getcustomasset('newvape/assets/old/info.png')
+		iconshadow.Image = getcustomasset('nexo/assets/old/info.png')
 		iconshadow.ImageColor3 = Color3.new()
 		iconshadow.ImageTransparency = 0.5
 		iconshadow.Parent = notification
@@ -3090,11 +3090,11 @@ function mainapi:Load(skipgui, profile)
 	local guidata = {}
 	local savecheck = true
 
-	if isfile('newvape/profiles/'..game.GameId..'.gui.txt') then
-		guidata = loadJson('newvape/profiles/'..game.GameId..'.gui.txt')
+	if isfile('nexo/profiles/'..game.GameId..'.gui.txt') then
+		guidata = loadJson('nexo/profiles/'..game.GameId..'.gui.txt')
 		if not guidata then
 			guidata = {Categories = {}}
-			self:CreateNotification('Vape', 'Failed to load GUI settings.', 10, 'alert')
+			self:CreateNotification('nexo', 'Failed to load GUI settings.', 10, 'alert')
 			savecheck = false
 		end
 
@@ -3134,15 +3134,15 @@ function mainapi:Load(skipgui, profile)
 	}}
 	self.Categories.Profiles:ChangeValue()
 
-	if isfile('newvape/profiles/'..self.Profile..self.Place..'.txt') then
-		local savedata = loadJson('newvape/profiles/'..self.Profile..self.Place..'.txt')
+	if isfile('nexo/profiles/'..self.Profile..self.Place..'.txt') then
+		local savedata = loadJson('nexo/profiles/'..self.Profile..self.Place..'.txt')
 		if not savedata then
 			savedata = {
 				Categories = {},
 				Modules = {},
 				Legit = {}
 			}
-			self:CreateNotification('Vape', 'Failed to load '..self.Profile..' profile.', 10, 'alert')
+			self:CreateNotification('nexo', 'Failed to load '..self.Profile..' profile.', 10, 'alert')
 			savecheck = false
 		end
 
@@ -3221,9 +3221,9 @@ function mainapi:Load(skipgui, profile)
 		image.Size = UDim2.fromOffset(26, 26)
 		image.Position = UDim2.fromOffset(3, 3)
 		image.BackgroundTransparency = 1
-		image.Image = getcustomasset('newvape/assets/old/vape.png')
+		image.Image = getcustomasset('nexo/assets/old/nexo.png')
 		image.Parent = button
-		self.VapeButton = button
+		self.nexoButton = button
 		button.MouseButton1Click:Connect(function()
 			if self.ThreadFix then
 				setthreadidentity(8)
@@ -3314,8 +3314,8 @@ function mainapi:Save(newprofile)
 		}
 	end
 
-	writefile('newvape/profiles/'..game.GameId..'.gui.txt', httpService:JSONEncode(guidata))
-	writefile('newvape/profiles/'..self.Profile..self.Place..'.txt', httpService:JSONEncode(savedata))
+	writefile('nexo/profiles/'..game.GameId..'.gui.txt', httpService:JSONEncode(guidata))
+	writefile('nexo/profiles/'..self.Profile..self.Place..'.txt', httpService:JSONEncode(savedata))
 end
 
 function mainapi:SaveOptions(object, savedoptions)
@@ -3362,9 +3362,9 @@ function mainapi:Uninject()
 	mainapi.gui:Destroy()
 	table.clear(mainapi.Libraries)
 	loopClean(mainapi)
-	shared.vape = nil
-	shared.vapereload = nil
-	shared.VapeIndependent = nil
+	shared.nexo = nil
+	shared.nexoreload = nil
+	shared.nexoIndependent = nil
 end
 
 gui = Instance.new('ScreenGui')
@@ -3464,45 +3464,45 @@ end))
 
 mainapi:CreateCategory({
 	Name = 'GUI',
-	Icon = getcustomasset('newvape/assets/old/guiicon.png')
+	Icon = getcustomasset('nexo/assets/old/guiicon.png')
 })
 local combat = mainapi:CreateCategory({
 	Name = 'Combat',
-	Icon = getcustomasset('newvape/assets/old/combaticon.png')
+	Icon = getcustomasset('nexo/assets/old/combaticon.png')
 })
 mainapi:CreateCategory({
 	Name = 'Blatant',
-	Icon = getcustomasset('newvape/assets/old/blatanticon.png'),
+	Icon = getcustomasset('nexo/assets/old/blatanticon.png'),
 	WindowSize = 164
 })
 mainapi:CreateCategory({
 	Name = 'Render',
-	Icon = getcustomasset('newvape/assets/old/rendericon.png'),
+	Icon = getcustomasset('nexo/assets/old/rendericon.png'),
 	WindowSize = 196
 })
 mainapi:CreateCategory({
 	Name = 'Utility',
-	Icon = getcustomasset('newvape/assets/old/utilityicon.png'),
+	Icon = getcustomasset('nexo/assets/old/utilityicon.png'),
 	WindowSize = 164
 })
 mainapi:CreateCategory({
 	Name = 'World',
-	Icon = getcustomasset('newvape/assets/old/worldicon.png')
+	Icon = getcustomasset('nexo/assets/old/worldicon.png')
 })
 mainapi:CreateCategory({
 	Name = 'Inventory',
-	Icon = getcustomasset('newvape/assets/old/worldicon.png')
+	Icon = getcustomasset('nexo/assets/old/worldicon.png')
 })
 mainapi:CreateCategory({
 	Name = 'Minigames',
-	Icon = getcustomasset('newvape/assets/old/worldicon.png')
+	Icon = getcustomasset('nexo/assets/old/worldicon.png')
 })
 mainapi.Legit = mainapi:CreateLegit({
 	Name = 'Legit'
 })
 local settingspane = mainapi:CreateCategory({
 	Name = 'Settings',
-	Icon = getcustomasset('newvape/assets/old/settingsicon.png'),
+	Icon = getcustomasset('nexo/assets/old/settingsicon.png'),
 	WindowSize = 166
 })
 
@@ -3518,7 +3518,7 @@ local friendscolor = {
 }
 local friendssettings = {
 	Name = 'Friends',
-	Icon = getcustomasset('newvape/assets/old/friendsicon.png'),
+	Icon = getcustomasset('nexo/assets/old/friendsicon.png'),
 	Placeholder = 'Roblox username',
 	WindowSize = 250,
 	Function = function()
@@ -3563,7 +3563,7 @@ mainapi:Clean(friends.ColorUpdate)
 ]]
 mainapi:CreateCategoryList({
 	Name = 'Profiles',
-	Icon = getcustomasset('newvape/assets/old/profilesicon.png'),
+	Icon = getcustomasset('nexo/assets/old/profilesicon.png'),
 	Placeholder = 'Type name',
 	WindowSize = 250,
 	Profiles = true
@@ -3575,7 +3575,7 @@ mainapi:CreateCategoryList({
 local targets
 targets = mainapi:CreateCategoryList({
 	Name = 'Targets',
-	Icon = getcustomasset('newvape/assets/old/friendsicon.png'),
+	Icon = getcustomasset('nexo/assets/old/friendsicon.png'),
 	Placeholder = 'Roblox username',
 	WindowSize = 250,
 	Function = function()
@@ -3724,16 +3724,16 @@ topbar:CreateDropdown({
 	List = inputService.TouchEnabled and {'new', 'old'} or {'new', 'old', 'rise'},
 	Function = function(val, mouse)
 		if mouse then
-			writefile('newvape/profiles/gui.txt', val)
-			shared.vapereload = true
-			if shared.VapeDeveloper then
-				loadstring(readfile('newvape/loader.lua'), 'loader')()
+			writefile('nexo/profiles/gui.txt', val)
+			shared.nexoreload = true
+			if shared.nexoDeveloper then
+				loadstring(readfile('nexo/loader.lua'), 'loader')()
 			else
-				loadstring(game:HttpGet('https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/'..readfile('newvape/profiles/commit.txt')..'/loader.lua', true))()
+				loadstring(game:HttpGet('https://raw.githubusercontent.com/nexohub1/nexo/'..readfile('nexo/profiles/commit.txt')..'/loader.lua', true))()
 			end
 		end
 	end,
-	Tooltip = 'new - The newest vape theme to since v4.05\nold - The vape theme pre v4.05\nrise - Rise 6.0'
+	Tooltip = 'new - The newest nexo theme to since v4.05\nold - The nexo theme pre v4.05\nrise - Rise 6.0'
 })
 mainapi.RainbowMode = topbar:CreateDropdown({
 	Name = 'Rainbow Mode',
@@ -3760,17 +3760,17 @@ topbar:CreateButton({
 	Name = 'Reset current profile',
 	Function = function()
 	mainapi.Save = function() end
-		if isfile('newvape/profiles/'..mainapi.Profile..mainapi.Place..'.txt') and delfile then
-			delfile('newvape/profiles/'..mainapi.Profile..mainapi.Place..'.txt')
+		if isfile('nexo/profiles/'..mainapi.Profile..mainapi.Place..'.txt') and delfile then
+			delfile('nexo/profiles/'..mainapi.Profile..mainapi.Place..'.txt')
 		end
-		shared.vapereload = true
-		if shared.VapeDeveloper then
-			loadstring(readfile('newvape/loader.lua'), 'loader')()
+		shared.nexoreload = true
+		if shared.nexoDeveloper then
+			loadstring(readfile('nexo/loader.lua'), 'loader')()
 		else
-			loadstring(game:HttpGet('https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/'..readfile('newvape/profiles/commit.txt')..'/loader.lua', true))()
+			loadstring(game:HttpGet('https://raw.githubusercontent.com/nexohub1/nexo/'..readfile('nexo/profiles/commit.txt')..'/loader.lua', true))()
 		end
 	end,
-	Tooltip = 'This will set your profile to the default settings of Vape'
+	Tooltip = 'This will set your profile to the default settings of nexo'
 })
 topbar:CreateButton({
 	Name = 'Reset GUI positions',
@@ -3822,19 +3822,19 @@ topbar:CreateButton({
 	Function = function()
 		mainapi:Uninject()
 	end,
-	Tooltip = 'Removes vape from the current game'
+	Tooltip = 'Removes nexo from the current game'
 })
 topbar:CreateButton({
 	Name = 'REINEJCT',
 	Function = function()
-		shared.vapereload = true
-		if shared.VapeDeveloper then
-			loadstring(readfile('newvape/loader.lua'), 'loader')()
+		shared.nexoreload = true
+		if shared.nexoDeveloper then
+			loadstring(readfile('nexo/loader.lua'), 'loader')()
 		else
-			loadstring(game:HttpGet('https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/'..readfile('newvape/profiles/commit.txt')..'/loader.lua', true))()
+			loadstring(game:HttpGet('https://raw.githubusercontent.com/nexohub1/nexo/'..readfile('nexo/profiles/commit.txt')..'/loader.lua', true))()
 		end
 	end,
-	Tooltip = 'Reloads vape for debugging purposes'
+	Tooltip = 'Reloads nexo for debugging purposes'
 })
 topbar:CreateBind()
 
@@ -4004,7 +4004,7 @@ mainapi.Libraries.targetinfo = targetinfo
 
 local textgui = mainapi:CreateOverlay({
 	Name = 'Text GUI',
-	Icon = getcustomasset('newvape/assets/old/textguiicon.png'),
+	Icon = getcustomasset('nexo/assets/old/textguiicon.png'),
 	WindowSize = 178,
 	Function = function()
 		mainapi:UpdateTextGUI()
@@ -4017,8 +4017,8 @@ local textguisort = textgui:CreateDropdown({
 		mainapi:UpdateTextGUI()
 	end
 })
-local VapeTextScale = Instance.new('UIScale')
-VapeTextScale.Parent = textgui.Children
+local nexoTextScale = Instance.new('UIScale')
+nexoTextScale.Parent = textgui.Children
 local textguiscale = textgui:CreateSlider({
 	Name = 'Scale',
 	Min = 0,
@@ -4026,7 +4026,7 @@ local textguiscale = textgui:CreateSlider({
 	Decimal = 10,
 	Default = 1,
 	Function = function(val)
-		VapeTextScale.Scale = val
+		nexoTextScale.Scale = val
 		mainapi:UpdateTextGUI()
 	end
 })
@@ -4039,7 +4039,7 @@ local textguishadow = textgui:CreateToggle({
 })
 local textguiwatermark = textgui:CreateToggle({
 	Name = 'Watermark',
-	Tooltip = 'Renders a vape watermark',
+	Tooltip = 'Renders a nexo watermark',
 	Function = function()
 		mainapi:UpdateTextGUI()
 	end
@@ -4083,17 +4083,17 @@ local textguirender = textgui:CreateToggle({
 	Text GUI Objects
 ]]
 
-local VapeLabels = {}
-local VapeLogo = Instance.new('ImageLabel')
-VapeLogo.Name = 'Logo'
-VapeLogo.Size = UDim2.fromOffset(96, 26)
-VapeLogo.Position = UDim2.new(1, -142, 0, 3)
-VapeLogo.BackgroundTransparency = 1
-VapeLogo.BorderSizePixel = 0
-VapeLogo.Visible = true
-VapeLogo.BackgroundColor3 = Color3.new()
-VapeLogo.Image = getcustomasset('newvape/assets/old/textvape.png')
-VapeLogo.Parent = textgui.Children
+local nexoLabels = {}
+local nexoLogo = Instance.new('ImageLabel')
+nexoLogo.Name = 'Logo'
+nexoLogo.Size = UDim2.fromOffset(96, 26)
+nexoLogo.Position = UDim2.new(1, -142, 0, 3)
+nexoLogo.BackgroundTransparency = 1
+nexoLogo.BorderSizePixel = 0
+nexoLogo.Visible = true
+nexoLogo.BackgroundColor3 = Color3.new()
+nexoLogo.Image = getcustomasset('nexo/assets/old/textnexo.png')
+nexoLogo.Parent = textgui.Children
 
 local lastside = textgui.Children.AbsolutePosition.X > (gui.AbsoluteSize.X / 2)
 mainapi:Clean(textgui.Children:GetPropertyChangedSignal('AbsolutePosition'):Connect(function()
@@ -4107,62 +4107,62 @@ mainapi:Clean(textgui.Children:GetPropertyChangedSignal('AbsolutePosition'):Conn
 	end
 end))
 
-local VapeLogoV4 = Instance.new('ImageLabel')
-VapeLogoV4.Name = 'Logo2'
-VapeLogoV4.Size = UDim2.fromOffset(43, 30)
-VapeLogoV4.Position = UDim2.new(1, 1, 0, -2)
-VapeLogoV4.BackgroundColor3 = Color3.new()
-VapeLogoV4.BackgroundTransparency = 1
-VapeLogoV4.BorderSizePixel = 0
-VapeLogoV4.Image = getcustomasset('newvape/assets/old/textv4.png')
-VapeLogoV4.Parent = VapeLogo
-local VapeLogoShadow = VapeLogo:Clone()
-VapeLogoShadow.Position = UDim2.fromOffset(1, 1)
-VapeLogoShadow.ZIndex = 0
-VapeLogoShadow.Visible = true
-VapeLogoShadow.ImageColor3 = Color3.new()
-VapeLogoShadow.ImageTransparency = 0.65
-VapeLogoShadow.Parent = VapeLogo
-VapeLogoShadow.Logo2.ZIndex = 0
-VapeLogoShadow.Logo2.ImageColor3 = Color3.new()
-VapeLogoShadow.Logo2.ImageTransparency = 0.65
-local VapeLogoGradient = Instance.new('UIGradient')
-VapeLogoGradient.Rotation = 90
-VapeLogoGradient.Parent = VapeLogo
-local VapeLogoGradient2 = Instance.new('UIGradient')
-VapeLogoGradient2.Rotation = 90
-VapeLogoGradient2.Parent = VapeLogoV4
-local VapeLabelHolder = Instance.new('Frame')
-VapeLabelHolder.Name = 'Holder'
-VapeLabelHolder.Size = UDim2.fromScale(1, 1)
-VapeLabelHolder.Position = UDim2.fromOffset(5, 37)
-VapeLabelHolder.BackgroundTransparency = 1
-VapeLabelHolder.Parent = textgui.Children
-local VapeLabelSorter = Instance.new('UIListLayout')
-VapeLabelSorter.HorizontalAlignment = Enum.HorizontalAlignment.Right
-VapeLabelSorter.VerticalAlignment = Enum.VerticalAlignment.Top
-VapeLabelSorter.SortOrder = Enum.SortOrder.LayoutOrder
-VapeLabelSorter.Parent = VapeLabelHolder
+local nexoLogoV4 = Instance.new('ImageLabel')
+nexoLogoV4.Name = 'Logo2'
+nexoLogoV4.Size = UDim2.fromOffset(43, 30)
+nexoLogoV4.Position = UDim2.new(1, 1, 0, -2)
+nexoLogoV4.BackgroundColor3 = Color3.new()
+nexoLogoV4.BackgroundTransparency = 1
+nexoLogoV4.BorderSizePixel = 0
+nexoLogoV4.Image = getcustomasset('nexo/assets/old/textv4.png')
+nexoLogoV4.Parent = nexoLogo
+local nexoLogoShadow = nexoLogo:Clone()
+nexoLogoShadow.Position = UDim2.fromOffset(1, 1)
+nexoLogoShadow.ZIndex = 0
+nexoLogoShadow.Visible = true
+nexoLogoShadow.ImageColor3 = Color3.new()
+nexoLogoShadow.ImageTransparency = 0.65
+nexoLogoShadow.Parent = nexoLogo
+nexoLogoShadow.Logo2.ZIndex = 0
+nexoLogoShadow.Logo2.ImageColor3 = Color3.new()
+nexoLogoShadow.Logo2.ImageTransparency = 0.65
+local nexoLogoGradient = Instance.new('UIGradient')
+nexoLogoGradient.Rotation = 90
+nexoLogoGradient.Parent = nexoLogo
+local nexoLogoGradient2 = Instance.new('UIGradient')
+nexoLogoGradient2.Rotation = 90
+nexoLogoGradient2.Parent = nexoLogoV4
+local nexoLabelHolder = Instance.new('Frame')
+nexoLabelHolder.Name = 'Holder'
+nexoLabelHolder.Size = UDim2.fromScale(1, 1)
+nexoLabelHolder.Position = UDim2.fromOffset(5, 37)
+nexoLabelHolder.BackgroundTransparency = 1
+nexoLabelHolder.Parent = textgui.Children
+local nexoLabelSorter = Instance.new('UIListLayout')
+nexoLabelSorter.HorizontalAlignment = Enum.HorizontalAlignment.Right
+nexoLabelSorter.VerticalAlignment = Enum.VerticalAlignment.Top
+nexoLabelSorter.SortOrder = Enum.SortOrder.LayoutOrder
+nexoLabelSorter.Parent = nexoLabelHolder
 
 function mainapi:UpdateTextGUI(afterload)
 	if not afterload and not mainapi.Loaded then return end
 	if textgui.Button.Enabled then
 		local right = textgui.Children.AbsolutePosition.X > (gui.AbsoluteSize.X / 2)
-		VapeLogo.Visible = textguiwatermark.Enabled
-		VapeLogo.Position = right and UDim2.new(1 / VapeTextScale.Scale, -141, 0, 4) or UDim2.fromOffset(5, 4)
-		VapeLogoShadow.Visible = textguishadow.Enabled
-		VapeLabelSorter.HorizontalAlignment = right and Enum.HorizontalAlignment.Right or Enum.HorizontalAlignment.Left
-		VapeLabelHolder.Size = UDim2.fromScale(1 / VapeTextScale.Scale, 1)
-		VapeLabelHolder.Position = UDim2.fromOffset(4, 4 + (VapeLogo.Visible and VapeLogo.Size.Y.Offset or 0))
+		nexoLogo.Visible = textguiwatermark.Enabled
+		nexoLogo.Position = right and UDim2.new(1 / nexoTextScale.Scale, -141, 0, 4) or UDim2.fromOffset(5, 4)
+		nexoLogoShadow.Visible = textguishadow.Enabled
+		nexoLabelSorter.HorizontalAlignment = right and Enum.HorizontalAlignment.Right or Enum.HorizontalAlignment.Left
+		nexoLabelHolder.Size = UDim2.fromScale(1 / nexoTextScale.Scale, 1)
+		nexoLabelHolder.Position = UDim2.fromOffset(4, 4 + (nexoLogo.Visible and nexoLogo.Size.Y.Offset or 0))
 
 		local found = {}
-		for _, v in VapeLabels do
+		for _, v in nexoLabels do
 			if v.Enabled then
 				table.insert(found, v.Object.Name)
 			end
 			v.Object:Destroy()
 		end
-		table.clear(VapeLabels)
+		table.clear(nexoLabels)
 
 		for i, v in mainapi.Modules do
 			if textguimodules.Enabled and table.find(textguimoduleslist.ListEnabled, i) then continue end
@@ -4174,7 +4174,7 @@ function mainapi:UpdateTextGUI(afterload)
 				holder.Size = UDim2.fromOffset()
 				holder.BackgroundTransparency = 1
 				holder.ClipsDescendants = true
-				holder.Parent = VapeLabelHolder
+				holder.Parent = nexoLabelHolder
 				local holdertext = Instance.new('TextLabel')
 				holdertext.Position = UDim2.fromOffset(right and 3 or 0, 2)
 				holdertext.BackgroundTransparency = 1
@@ -4196,7 +4196,7 @@ function mainapi:UpdateTextGUI(afterload)
 				holdertext.Parent = holder
 				local holdersize = UDim2.fromOffset(size.X + 10, size.Y + 3)
 				holder.Size = v.Enabled and holdersize or UDim2.fromOffset()
-				table.insert(VapeLabels, {
+				table.insert(nexoLabels, {
 					Object = holder,
 					Text = holdertext,
 					Enabled = v.Enabled
@@ -4205,16 +4205,16 @@ function mainapi:UpdateTextGUI(afterload)
 		end
 
 		if textguisort.Value == 'Alphabetical' then
-			table.sort(VapeLabels, function(a, b)
+			table.sort(nexoLabels, function(a, b)
 				return a.Text.Text < b.Text.Text
 			end)
 		else
-			table.sort(VapeLabels, function(a, b)
+			table.sort(nexoLabels, function(a, b)
 				return a.Text.Size.X.Offset > b.Text.Size.X.Offset
 			end)
 		end
 
-		for i, v in VapeLabels do
+		for i, v in nexoLabels do
 			if v.Color then
 				v.Color.Parent.Line.Visible = i ~= 1
 			end
@@ -4250,16 +4250,16 @@ function mainapi:UpdateGUI(hue, sat, val, default)
 	if mainapi.Loaded == nil then return end
 	if not default and mainapi.GUIColor.Rainbow then return end
 	if textgui.Button.Enabled then
-		VapeLogoGradient.Color = ColorSequence.new({
+		nexoLogoGradient.Color = ColorSequence.new({
 			ColorSequenceKeypoint.new(0, Color3.fromHSV(hue, sat, val)),
 			ColorSequenceKeypoint.new(1, mainapi.GUIColor.Rainbow and Color3.fromHSV(mainapi:Color((hue - 0.075) % 1)) or Color3.fromHSV(hue, sat, val))
 		})
-		VapeLogoGradient2.Color = mainapi.GUIColor.Rainbow and VapeLogoGradient.Color or ColorSequence.new({
+		nexoLogoGradient2.Color = mainapi.GUIColor.Rainbow and nexoLogoGradient.Color or ColorSequence.new({
 			ColorSequenceKeypoint.new(0, Color3.new(1, 1, 1)),
 			ColorSequenceKeypoint.new(1, Color3.new(1, 1, 1))
 		})
-		for i, v in VapeLabels do
-			v.Text.TextColor3 = customcolor or (mainapi.GUIColor.Rainbow and Color3.fromHSV(mainapi:Color((hue - ((i + 2) * 0.025)) % 1)) or VapeLogoGradient.Color.Keypoints[2].Value)
+		for i, v in nexoLabels do
+			v.Text.TextColor3 = customcolor or (mainapi.GUIColor.Rainbow and Color3.fromHSV(mainapi:Color((hue - ((i + 2) * 0.025)) % 1)) or nexoLogoGradient.Color.Keypoints[2].Value)
 		end
 	end
 
