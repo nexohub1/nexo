@@ -1,93 +1,11 @@
--- HashLib by Egor Skriptunoff, boatbomber, and howmanysmall, I'm not trusting exploits to have a built in crypt library.
-
---[=[------------------------------------------------------------------------------------------------------------------------
-
-Documentation here: https://devforum.roblox.com/t/open-source-hashlib/416732/1
-
---------------------------------------------------------------------------------------------------------------------------
-
-Module was originally written by Egor Skriptunoff and distributed under an MIT license.
-It can be found here: https://github.com/Egor-Skriptunoff/pure_lua_SHA/blob/master/sha2.lua
-
-That version was around 3000 lines long, and supported Lua versions 5.1, 5.2, 5.3, and 5.4, and LuaJIT.
-Although that is super cool, Roblox only uses Lua 5.1, so that was extreme overkill.
-
-I, boatbomber, worked to port it to Roblox in a way that doesn't overcomplicate it with support of unreachable
-cases. Then, howmanysmall did some final optimizations that really squeeze out all the performance possible.
-It's gotten stupid fast, thanks to her!
-
-After quite a bit of work and benchmarking, this is what we were left with.
-Enjoy!
-
---------------------------------------------------------------------------------------------------------------------------
-
-DESCRIPTION:
-	This module contains functions to calculate SHA digest:
-		MD5, SHA-1,
-		SHA-224, SHA-256, SHA-512/224, SHA-512/256, SHA-384, SHA-512,
-		SHA3-224, SHA3-256, SHA3-384, SHA3-512, SHAKE128, SHAKE256,
-		HMAC
-	Additionally, it has a few extra utility functions:
-		hex_to_bin
-		base64_to_bin
-		bin_to_base64
-	Written in pure Lua.
-USAGE:
-	Input data should be a string
-	Result (SHA digest) is returned in hexadecimal representation as a string of lowercase hex digits.
-	Simplest usage example:
-		local HashLib = require(script.HashLib)
-		local your_hash = HashLib.sha256("your string")
-API:
-		HashLib.md5
-		HashLib.sha1
-	SHA2 hash functions:
-		HashLib.sha224
-		HashLib.sha256
-		HashLib.sha512_224
-		HashLib.sha512_256
-		HashLib.sha384
-		HashLib.sha512
-	SHA3 hash functions:
-		HashLib.sha3_224
-		HashLib.sha3_256
-		HashLib.sha3_384
-		HashLib.sha3_512
-		HashLib.shake128
-		HashLib.shake256
-	Misc utilities:
-		HashLib.hmac (Applicable to any hash function from this module except SHAKE*)
-		HashLib.hex_to_bin
-		HashLib.base64_to_bin
-		HashLib.bin_to_base64
-
---]=]---------------------------------------------------------------------------
-
---------------------------------------------------------------------------------
--- LOCALIZATION FOR VM OPTIMIZATIONS
---------------------------------------------------------------------------------
-
 local ipairs = ipairs
-
---------------------------------------------------------------------------------
--- 32-BIT BITWISE FUNCTIONS
---------------------------------------------------------------------------------
--- Only low 32 bits of function arguments matter, high bits are ignored
--- The result of all functions (except HEX) is an integer inside "correct range":
--- for "bit" library:	(-TWO_POW_31)..(TWO_POW_31-1)
--- for "bit32" library:		0..(TWO_POW_32-1)
 local bit32_band = bit32.band -- 2 arguments
 local bit32_bor = bit32.bor -- 2 arguments
 local bit32_bxor = bit32.bxor -- 2..5 arguments
 local bit32_lshift = bit32.lshift -- second argument is integer 0..31
-local bit32_rshift = bit32.rshift -- second argument is integer 0..31
-local bit32_lrotate = bit32.lrotate -- second argument is integer 0..31
-local bit32_rrotate = bit32.rrotate -- second argument is integer 0..31
-
---------------------------------------------------------------------------------
--- CREATING OPTIMIZED INNER LOOP
---------------------------------------------------------------------------------
--- Arrays of SHA2 "magic numbers" (in "INT64" and "FFI" branches "*_lo" arrays contain 64-bit values)
+local bit32_rshift = bit32.rshift
+local bit32_lrotate = bit32.lrotate
+local bit32_rrotate = bit32.rrotate
 local sha2_K_lo, sha2_K_hi, sha2_H_lo, sha2_H_hi, sha3_RC_lo, sha3_RC_hi = {}, {}, {}, {}, {}, {}
 local sha2_H_ext256 = {
 	[224] = {};
@@ -614,20 +532,8 @@ local function keccak_feed(lanes_lo, lanes_hi, str, offs, size, block_size_in_by
 		lanes_hi[25] = L25_hi
 	end
 end
-
---------------------------------------------------------------------------------
--- MAGIC NUMBERS CALCULATOR
---------------------------------------------------------------------------------
--- Q:
---	Is 53-bit "double" math enough to calculate square roots and cube roots of primes with 64 correct bits after decimal point?
--- A:
---	Yes, 53-bit "double" arithmetic is enough.
---	We could obtain first 40 bits by direct calculation of p^(1/3) and next 40 bits by one step of Newton's method.
 do
 	local function mul(src1, src2, factor, result_length)
-		-- src1, src2 - long integers (arrays of digits in base TWO_POW_24)
-		-- factor - small integer
-		-- returns long integer result (src1 * src2 * factor) and its floating point approximation
 		local result, carry, value, weight = table.create(result_length), 0, 0, 1
 		for j = 1, result_length do
 			for k = math.max(1, j + 1 - #src2), math.min(j, #src1) do
@@ -731,10 +637,6 @@ do
 		sha3_RC_hi[idx], sha3_RC_lo[idx] = hi, lo + hi * hi_factor_keccak
 	end
 end
-
---------------------------------------------------------------------------------
--- MAIN FUNCTIONS
---------------------------------------------------------------------------------
 local function sha256ext(width, message)
 	-- Create an instance (private objects for current calculation)
 	local Array256 = sha2_H_ext256[width] -- # == 8
@@ -771,9 +673,6 @@ local function sha256ext(width, message)
 				final_blocks[3] = string.rep("\0", (-9 - length) % 64 + 1)
 
 				tail = nil
-				-- Assuming user data length is shorter than (TWO_POW_53)-9 bytes
-				-- Anyway, it looks very unrealistic that someone would spend more than a year of calculations to process TWO_POW_53 bytes of data by using this Lua script :-)
-				-- TWO_POW_53 bytes = TWO_POW_56 bits, so "bit-counter" fits in 7 bytes
 				length = length * (8 / TWO56_POW_7) -- convert "byte-counter" to "bit-counter" and move decimal point to the left
 				for j = 4, 10 do
 					length = length % 1 * 256
@@ -798,8 +697,6 @@ local function sha256ext(width, message)
 		-- Actually perform calculations and return the SHA256 digest of a message
 		return partial(message)()
 	else
-		-- Return function for chunk-by-chunk loading
-		-- User should feed every chunk of input data as single argument to this function and finally get SHA256 digest by invoking this function without an argument
 		return partial
 	end
 end
@@ -1017,19 +914,6 @@ local function keccak(block_size_in_bytes, digest_size_in_bytes, is_SHAKE, messa
 	-- Create an instance (private objects for current calculation)
 	local tail, lanes_lo, lanes_hi = "", table.create(25, 0), hi_factor_keccak == 0 and table.create(25, 0)
 	local result
-
-	--~	 pad the input N using the pad function, yielding a padded bit string P with a length divisible by r (such that n = len(P)/r is integer),
-	--~	 break P into n consecutive r-bit pieces P0, ..., Pn-1 (last is zero-padded)
-	--~	 initialize the state S to a string of b 0 bits.
-	--~	 absorb the input into the state: For each block Pi,
-	--~		 extend Pi at the end by a string of c 0 bits, yielding one of length b,
-	--~		 XOR that with S and
-	--~		 apply the block permutation f to the result, yielding a new state S
-	--~	 initialize Z to be the empty string
-	--~	 while the length of Z is less than d:
-	--~		 append the first r bits of S to Z
-	--~		 if Z is still less than d bits long, apply f to S, yielding a new state S.
-	--~	 truncate Z to d bits
 	local function partial(message_part)
 		if message_part then
 			local partLength = #message_part
