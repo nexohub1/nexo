@@ -1,32 +1,3 @@
---[[
-	Fiu: https://github.com/rce-incorporated/Fiu
-
-	MIT License
-
-	Copyright (c) 2022-2024 TheGreatSageEqualToHeaven
-	Copyright (c) 2019-2024 Roblox Corporation
-	Copyright (c) 1994–2019 Lua.org, PUC-Rio.
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of
-	this software and associated documentation files (the "Software"), to deal in
-	the Software without restriction, including without limitation the rights to
-	use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
-	of the Software, and to permit persons to whom the Software is furnished to do
-	so, subject to the following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-	SOFTWARE.
-]]
-
--- // Environment changes in the VM are not supposed to alter the behaviour of the VM so we localise globals beforehand
 local type = type
 local pcall = pcall
 local error = error
@@ -67,26 +38,6 @@ local ttisnumber = function(v) return type(v) == "number" end
 local ttisstring = function(v) return type(v) == "string" end
 local ttisboolean = function(v) return type(v) == "boolean" end
 local ttisfunction = function(v) return type(v) == "function" end
-
--- // opList contains information about the instruction, each instruction is defined in this format:
--- // {OP_NAME, OP_MODE, K_MODE, HAS_AUX}
--- // OP_MODE specifies what type of registers the instruction uses if any
---		0 = NONE
---		1 = A
---		2 = AB
---		3 = ABC
---		4 = AD
---		5 = AE
--- // K_MODE specifies if the instruction has a register that holds a constant table index, which will be directly converted to the constant in the 2nd pass
---		0 = NONE
---		1 = AUX
---		2 = C
---		3 = D
---		4 = AUX import
---		5 = AUX boolean low 1 bit
---		6 = AUX number low 24 bits
--- // HAS_AUX boolean specifies whether the instruction is followed up with an AUX word, which may be used to execute the instruction.
-
 local opList = {
 	{ "NOP", 0, 0, false },
 	{ "BREAK", 0, 0, false },
